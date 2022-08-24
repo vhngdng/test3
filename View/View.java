@@ -86,6 +86,7 @@ public class View {
         System.out.println("Hay nhap password: ");
         String password = scanner.nextLine();
         // check password
+
         while (userController.checkPassword(password) == false) {
             System.out.println("Sai password");
             System.out.println("[1] Đăng nhập lại");
@@ -94,10 +95,11 @@ public class View {
             scanner.nextLine();
             switch (num) {
                 case 1: {
-                    while (userController.checkPassword(password) == false) {
-                        System.out.println("Hay nhap password: ");
+                    do {
+                        System.out.println("Hay nhap password lai: ");
                         password = scanner.nextLine();
-                    }
+
+                    } while (userController.checkPassword(password) == false);
                     break;
                 }
                 case 2: {
@@ -112,7 +114,9 @@ public class View {
                 break;
             }
         }
+
         user.setUserName(userName);
+
         return userController.getUser(user);
 
     }
@@ -281,10 +285,10 @@ public class View {
                 }
                 case 0: {
                     isQuit = true;
-                    displaySelection();
+                    this.quit();
                 }
                 default:
-                    displaySelection();
+                    login(userName);
             }
             if (isBoolean = true) {
                 break;

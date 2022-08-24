@@ -33,7 +33,7 @@ public class UserController {
 
     // check password theo mau
     public boolean passwordPattern(String password) {
-        String passwordPattern = "^(?=.*?[A-Z])+(?=.*?[.,-_;]).{7,15}$";
+        String passwordPattern = "^(?=.*?[A-Z])(?=.*?[.,-_;]).{7,15}$";
         boolean isValid = Pattern.matches(passwordPattern, password);
         System.out.println(isValid);
         return isValid;
