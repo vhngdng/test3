@@ -32,51 +32,9 @@ public class View {
             switch (numberSelect) {
                 case 1: {
                     if (userController.isUserExistence()) {
-                        
-                        User user = signIn();
-                        System.out.println(
-                                "Chao mung " + user.getUserName() + ", bạn có thể thực hiện các công việc sau: ");
-                        while (true) {
-                            displayMenuLogin();
-                            int num = scanner.nextInt();
-                            scanner.nextLine();
-                            switch (num) {
 
-                                case 1: {
-                                    System.out.println("Hay nhap username moi:");
-                                    String userName = scanner.nextLine();
-                                    changeUserName(userName, user);
-                                    isBoolean = true;
-                                    break;
-                                }
-                                case 2: {
-                                    System.out.println("Hay nhap email moi:");
-                                    String email = scanner.nextLine();
-                                    changeUserEmail(email, user);
-                                    isBoolean = true;
-                                    break;
-                                }
-                                case 3: {
-                                    System.out.println("Hay nhap password moi:");
-                                    String passWord = scanner.nextLine();
-                                    changePassWord(passWord, user);
-                                    isBoolean = true;
-                                    break;
-                                }
-                                case 4: {
-                                    break;
-                                }
-                                case 0: {
-                                    isQuit = true;
-                                    break;
-                                }
-                                default:
-                                    break;
-                            }
-                            if (isBoolean = true){
-                                break;
-                            }
-                        }
+                        User user = signIn();
+                        login(user.getUserName());
                     } else {
                         System.out.println("");
                         System.out.println("Chưa tồn tại user nào");
@@ -86,6 +44,8 @@ public class View {
                         break;
                     }
                     if (isBoolean == true) {
+                        System.out.println("Quay lai menu chinh");
+                        System.out.println("==================================================================");
                         break;
                     }
                 }
@@ -135,13 +95,13 @@ public class View {
             switch (num) {
                 case 1: {
                     while (userController.checkPassword(password) == false) {
-                    System.out.println("Hay nhap password: ");
-                    password = scanner.nextLine();
+                        System.out.println("Hay nhap password: ");
+                        password = scanner.nextLine();
                     }
                     break;
                 }
                 case 2: {
-                    forgotPassword();
+                    forgotPassword(userName);
                     isBoolean = true;
                     break;
                 }
@@ -154,22 +114,25 @@ public class View {
         }
         user.setUserName(userName);
         return userController.getUser(user);
-        
+
     }
 
     // forgot password
-    public void forgotPassword() {
+    public void forgotPassword(String userName) {
         System.out.println("Hay nhap email cua ban: ");
         String email = scanner.nextLine();
+
         while (true) {
             if (userController.checkEmail(email)) {
                 System.out.println("Da gui lai mat khau cua ban theo email");
-                return;
+                login(userName);
+                break;
             } else {
                 System.out.println("email khong dung, xin hay nhap lai: ");
                 email = scanner.nextLine();
             }
         }
+        displaySelection();
     }
 
     // dang ky
@@ -257,7 +220,7 @@ public class View {
 
     }
 
-    //Change email
+    // Change email
     public void changeUserEmail(String email, User user) {
         user = userController.getUser(user);
         while (userController.checkEmail(email) == true) { // check email trung
@@ -268,15 +231,64 @@ public class View {
         System.out.println("email moi cua ban la: " + user.getEmail());
     }
 
-    //Change password
+    // Change password
     public void changePassWord(String passWord, User user) {
-        user = userController.getUser(user);;
-        
+        user = userController.getUser(user);
+        ;
+
         while (userController.checkPassword(passWord) == false) { // check password trung
             System.out.println("password này bị trùng, hay nhap lai");
             passWord = scanner.nextLine();
         }
         user.setPassword(passWord);
         System.out.println("pass moi cua ban la: " + user.getPassword());
+    }
+
+    // login
+    public void login(String userName) {
+        boolean isQuit = false;
+        boolean isBoolean = false;
+        User user = userController.getUserByName(userName);
+        System.out.println("Chao mung " + user.getUserName() + ", bạn có thể thực hiện các công việc sau: ");
+        while (true) {
+            displayMenuLogin();
+            int num = scanner.nextInt();
+            scanner.nextLine();
+            switch (num) {
+                case 1: {
+                    System.out.println("Hay nhap username moi:");
+                    userName = scanner.nextLine();
+                    changeUserName(userName, user);
+                    isBoolean = true;
+                    break;
+                }
+                case 2: {
+                    System.out.println("Hay nhap email moi:");
+                    String email = scanner.nextLine();
+                    changeUserEmail(email, user);
+                    isBoolean = true;
+                    break;
+                }
+                case 3: {
+                    System.out.println("Hay nhap password moi:");
+                    String passWord = scanner.nextLine();
+                    changePassWord(passWord, user);
+                    isBoolean = true;
+                    break;
+                }
+                case 4: {
+                    break;
+                }
+                case 0: {
+                    isQuit = true;
+                    displaySelection();
+                }
+                default:
+                    displaySelection();
+            }
+            if (isBoolean = true) {
+                break;
+            }
+        }
     }
 }
