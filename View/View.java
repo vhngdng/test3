@@ -25,13 +25,14 @@ public class View {
     public boolean display() {
         boolean isQuit = false;
         while (true) {
+            boolean isBoolean = false;
             displaySelection();
             int numberSelect = scanner.nextInt();
             scanner.nextLine();
             switch (numberSelect) {
                 case 1: {
                     if (userController.isUserExistence()) {
-                        boolean isBoolean = false;
+                        
                         User user = signIn();
                         System.out.println(
                                 "Chao mung " + user.getUserName() + ", bạn có thể thực hiện các công việc sau: ");
@@ -40,24 +41,25 @@ public class View {
                             int num = scanner.nextInt();
                             scanner.nextLine();
                             switch (num) {
+
                                 case 1: {
                                     System.out.println("Hay nhap username moi:");
                                     String userName = scanner.nextLine();
-                                    changeUserName(userName);
+                                    changeUserName(userName, user);
                                     isBoolean = true;
                                     break;
                                 }
                                 case 2: {
                                     System.out.println("Hay nhap email moi:");
                                     String email = scanner.nextLine();
-                                    changeUserEmail(email);
+                                    changeUserEmail(email, user);
                                     isBoolean = true;
                                     break;
                                 }
                                 case 3: {
                                     System.out.println("Hay nhap password moi:");
                                     String passWord = scanner.nextLine();
-                                    changePassWord(passWord);
+                                    changePassWord(passWord, user);
                                     isBoolean = true;
                                     break;
                                 }
@@ -81,6 +83,9 @@ public class View {
                         System.out.println("==================================================================");
                         System.out.println("Hãy đăng ký trước đã, vui lòng chọn 2");
                         System.out.println("");
+                        break;
+                    }
+                    if (isBoolean == true) {
                         break;
                     }
                 }
@@ -129,8 +134,10 @@ public class View {
             scanner.nextLine();
             switch (num) {
                 case 1: {
+                    while (userController.checkPassword(password) == false) {
                     System.out.println("Hay nhap password: ");
                     password = scanner.nextLine();
+                    }
                     break;
                 }
                 case 2: {
@@ -145,8 +152,9 @@ public class View {
                 break;
             }
         }
-        user = userController.getUser(userName);
-        return user;
+        user.setUserName(userName);
+        return userController.getUser(user);
+        
     }
 
     // forgot password
@@ -238,8 +246,8 @@ public class View {
     }
 
     // change userName
-    public void changeUserName(String userName) {
-        User user = view2();
+    public void changeUserName(String userName, User user) {
+        user = userController.getUser(user);
         while (userController.checkUserName(userName) == true) { // check username
             System.out.println("username này bị trùng, hay nhap lai");
             userName = scanner.nextLine();
@@ -250,8 +258,8 @@ public class View {
     }
 
     //Change email
-    public void changeUserEmail(String email) {
-        User user = view2();
+    public void changeUserEmail(String email, User user) {
+        user = userController.getUser(user);
         while (userController.checkEmail(email) == true) { // check email trung
             System.out.println("email này bị trùng, hay nhap lai");
             email = scanner.nextLine();
@@ -261,8 +269,8 @@ public class View {
     }
 
     //Change password
-    public void changePassWord(String passWord) {
-        User user = view2();
+    public void changePassWord(String passWord, User user) {
+        user = userController.getUser(user);;
         
         while (userController.checkPassword(passWord) == false) { // check password trung
             System.out.println("password này bị trùng, hay nhap lai");

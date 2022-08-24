@@ -52,8 +52,8 @@ public class UserController {
         return user;
     }
 
-    public User getUser(String userName) {
-
-        return this.user.getUser(userName);
+    public User getUser(User user) {
+        
+        return this.user.getUser(user.getUserName());
     }
 }
