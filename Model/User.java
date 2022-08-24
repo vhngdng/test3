@@ -95,17 +95,8 @@ public class User {
 
     //check password
     public boolean checkPassword(String password) {
-        boolean isDuplicate = false;
-        User user = new User();
-        Iterator<User>iteratorUser = userList.iterator();        
-        while (iteratorUser.hasNext()){
-            isDuplicate = (iteratorUser.next()).getPassword().equals(password);
-            if (isDuplicate == true) {
-                
-                break;
-            }
-        }     
-         
+        boolean isDuplicate = false; 
+        isDuplicate = user.getPassword().equals(password);     
         return isDuplicate;
     }
 
@@ -122,10 +113,8 @@ public class User {
         return isDuplicate;
     }
 
-    public User getUser(String userName) {
-        User user = new User();
-        boolean isDuplicate = false;
-               
+    public User getUser(String userName) {          // lay user va gan gia tri cho user static   
+        boolean isDuplicate = false;     
         for (User listUser: userList){
             isDuplicate = listUser.getUserName().equals(userName);
             if (isDuplicate == true) {
@@ -133,7 +122,6 @@ public class User {
                 return user;
             }
         }              
-        
         return user;
     }
 }
