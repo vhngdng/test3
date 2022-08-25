@@ -54,6 +54,9 @@ public class View {
                         System.out.println("==================================================================");
                         break;
                     }
+                    if (isQuit = true) {
+                        break;
+                    }
                 }
                 case 2: {
                     signUp();
@@ -261,11 +264,11 @@ public class View {
     // Change email
     public void changeUserEmail(String email, User user) {
         user = userController.getUser(user);
-        boolean validEmail = userController.checkEmail(email);
+        boolean validEmail = userController.checkEmailTochangeEmail(email);
         while (validEmail == false) { // check email trung
             System.out.println("email khong phu hop, hay nhap lai");
             email = scanner.nextLine();
-            validEmail = userController.checkEmail(email);
+            validEmail = userController.checkEmailTochangeEmail(email);
         }
         
         user.setEmail(email);
@@ -307,24 +310,25 @@ public class View {
                     System.out.println("Hay nhap username moi:");
                     userName = scanner.nextLine();
                     changeUserName(userName, user);
-                    isBoolean = false;
+                    login(userName);
                     break;
                 }
                 case 2: {
                     System.out.println("Hay nhap email moi:");
                     String email = scanner.nextLine();
                     changeUserEmail(email, user);
-                    isBoolean = false;
+                    login(userName);
                     break;
                 }
                 case 3: {
                     System.out.println("Hay nhap password moi:");
                     String passWord = scanner.nextLine();
                     changePassWord(passWord, user);
-                    isBoolean = false;
+                    login(userName);
                     break;
                 }
                 case 4: {
+                    display();
                     break;
                 }
                 case 0: {  

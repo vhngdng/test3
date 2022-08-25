@@ -30,8 +30,14 @@ public class UserController {
         return isDuplicate;
     }
 
-    // Check email bi trung
+    //check email to login
     public boolean checkEmail(String email) {
+        boolean isDuplicate = user.checkEmail(email);
+        return isDuplicate;
+    }
+
+    // Check email bi trung
+    public boolean checkEmailTochangeEmail(String email) {
         boolean isDuplicate = false;
         boolean isValid = emailPattern(email);
         if (user.checkEmail(email) == false && isValid == true) {
