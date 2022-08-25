@@ -7,15 +7,15 @@ import Controller.UserController;
 import Model.User;
 
 public class View {
-    private Scanner scanner;
-    private UserController userController;
-    private View view;
+    public Scanner scanner;
+    public UserController registrationController;
+    public View view;
 
     public View() {
         // init scanner
         this.scanner = new Scanner(System.in);
 
-        this.userController = new UserController();
+        this.registrationController = new UserController();
     }
 
     public View(User user) {
@@ -31,8 +31,8 @@ public class View {
             scanner.nextLine();
             switch (numberSelect) {
                 case 1: {
-                    if (userController.isUserExistence()) {
-
+                    if (registrationController.isUserExistence()) {
+                        
                         User user = signIn();
                         
                         if (login(user.getUserName()) == 1) {
@@ -59,6 +59,7 @@ public class View {
                     }
                 }
                 case 2: {
+                    
                     signUp();
                     System.out.println("Quay lai menu chinh");
                     System.out.println("==================================================================");
@@ -89,7 +90,7 @@ public class View {
         boolean isBoolean = false;
         System.out.println("Hay nhap ten dang nhap");
         String userName = scanner.nextLine();
-        while (userController.checkUserName(userName) == false) { // check username
+        while (registrationController.checkUserName(userName) == false) { // check username
             System.out.println("Không tồn tại username này, hãy nhập lại: " + " Lần thứ: " + (count + 1));  
     // Nhập sai 3 lần sẽ bị kick
             userName = scanner.nextLine();
@@ -100,12 +101,12 @@ public class View {
                     display();
                 }
         }
-        user = userController.getUserByName(userName);
+        user = registrationController.getUserByName(userName);
         System.out.println("Hay nhap password: ");
         String password = scanner.nextLine();
         // check password
 
-        while (userController.checkPassword(password) == false) {
+        while (registrationController.checkPassword(password) == false) {
             System.out.println("Sai password");
             System.out.println("[1] Đăng nhập lại");
             System.out.println("[2] Quên mật khẩu");
@@ -122,7 +123,7 @@ public class View {
                         if(count == 3) {
                             break;
                         }
-                    } while (userController.checkPassword(password) == false);
+                    } while (registrationController.checkPassword(password) == false);
         // Nhập sai 3 lần sẽ bị kick
                     if (count == 3) {
                         System.out.println("====================================================================");
@@ -147,7 +148,7 @@ public class View {
 
         user.setUserName(userName);
 
-        return userController.getUser(user);
+        return registrationController.getUser(user);
 
     }
 
@@ -157,7 +158,7 @@ public class View {
         String email = scanner.nextLine();
         int count = 0;
         while (true) {
-            if (userController.checkEmail(email)) {
+            if (registrationController.checkEmail(email)) {
                 System.out.println("Da gui lai mat khau cua ban theo email");
                 login(userName);
                 break;
@@ -179,8 +180,8 @@ public class View {
     public void signUp() {
         System.out.println("Hay nhap username: ");
         String userName = scanner.nextLine();
-        if (userController.isUserExistence()) { // check co ton tai user nao khong
-            while (userController.checkUserName(userName) == false) { // check username
+        if (registrationController.isUserExistence()) { // check co ton tai user nao khong
+            while (registrationController.checkUserName(userName) == false) { // check username
                 System.out.println("UserName nay bi trung, hay nhap lai: ");
                 userName = scanner.nextLine();
             }
@@ -189,7 +190,7 @@ public class View {
         System.out.println("Hãy nhập mật khẩu: ");
         System.out.println("Password dài từ 7 đến 15 ký tự, chứa ít nhất 1 ký tự in hoa, 1 ký tự đặc biệt (. , - _ ;)");
         String password = scanner.nextLine();
-        while ((userController.passwordPattern(password)) == false) {
+        while ((registrationController.passwordPattern(password)) == false) {
             System.out.println("Mật khẩu không hợp lệ, hãy nhập lại mật khẩu: ");
             System.out.println(
                     "Password dài từ 7 đến 15 ký tự, chứa ít nhất 1 ký tự in hoa, 1 ký tự đặc biệt (. , - _ ;)");
@@ -199,8 +200,8 @@ public class View {
         System.out.println("");
         System.out.println("Hãy nhập email: ");
         String email = scanner.nextLine();
-        if (userController.isUserExistence()) {
-            while ((userController.emailPattern(email)) == false) {
+        if (registrationController.isUserExistence()) {
+            while ((registrationController.emailPattern(email)) == false) {
                 System.out.println("email không hợp lệ");
                 System.out.println("Hãy nhập lại email: ");
                 email = scanner.nextLine();
@@ -214,7 +215,7 @@ public class View {
         System.out.println("");
         System.out.println("Ban da tao thanh cong User");
 
-        userController.addUser(user);
+        registrationController.addUser(user);
         
 
     }
@@ -251,8 +252,8 @@ public class View {
 
     // change userName
     public void changeUserName(String userName, User user) {
-        user = userController.getUser(user);
-        while (userController.checkUserName(userName) == false) { // check username
+        user = registrationController.getUser(user);
+        while (registrationController.checkUserName(userName) == false) { // check username
             System.out.println("username này bị trùng, hay nhap lai");
             userName = scanner.nextLine();
         }
@@ -263,12 +264,12 @@ public class View {
 
     // Change email
     public void changeUserEmail(String email, User user) {
-        user = userController.getUser(user);
-        boolean validEmail = userController.checkEmailTochangeEmail(email);
+        user = registrationController.getUser(user);
+        boolean validEmail = registrationController.checkEmailTochangeEmail(email);
         while (validEmail == false) { // check email trung
             System.out.println("email khong phu hop, hay nhap lai");
             email = scanner.nextLine();
-            validEmail = userController.checkEmailTochangeEmail(email);
+            validEmail = registrationController.checkEmailTochangeEmail(email);
         }
         
         user.setEmail(email);
@@ -278,15 +279,15 @@ public class View {
 
     // Change password
     public void changePassWord(String passWord, User user) {
-        user = userController.getUser(user);
+        user = registrationController.getUser(user);
         // User userTest = new User();
         // userTest.setPassword(passWord);
         
-        boolean validPassword = userController.checkPasswordTochangePass(passWord);
+        boolean validPassword = registrationController.checkPasswordTochangePass(passWord);
         while (validPassword == false ) { // check password trung
             System.out.println("password không phù hợp, hay nhap lai");
             passWord = scanner.nextLine();
-            validPassword = userController.checkPasswordTochangePass(passWord);
+            validPassword = registrationController.checkPasswordTochangePass(passWord);
         }
     // Check password pattern
         
@@ -299,7 +300,7 @@ public class View {
     public int login(String userName) {
         int i =0;
         boolean isBoolean = false;
-        User user = userController.getUserByName(userName);
+        User user = registrationController.getUserByName(userName);
         System.out.println("Chao mung " + user.getUserName() + ", bạn có thể thực hiện các công việc sau: ");
         while (true) {
             displayMenuLogin();

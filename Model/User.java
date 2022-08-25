@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class User {
     private String userName;
@@ -14,23 +15,19 @@ public class User {
     public static int USER_COUNT = 0;
     public static User user;
     List<User> userList = new ArrayList<>();
-    
+    public final String emailPattern = "^[A-Za-z0-9+_.-]+@(.+)$";
+    public final String passwordPattern = "^(?=.*?[A-Z])(?=.*?[.,-_;]).{7,15}$";
 
 
     public User() {
         
     }
 
-
     public User(String userName, String email, String password) {
         this.userName = userName;
         this.email = email;
         this.password = password;
     }
-
-    
-        
-     
 
 
     public String getUserName() {
@@ -72,11 +69,11 @@ public class User {
     }
     
 
-    public User addUser(User user){
+    public int addUser(User user){
         this.userList.add(user);
         int id = USER_COUNT + 1;
         user.setId(id);
-        return user;
+        return user.id;
     }
 
 
@@ -96,6 +93,7 @@ public class User {
     //check password
     public boolean checkPassword(String password) {
         boolean isDuplicate = false; 
+        
         isDuplicate = user.getPassword().equals(password);     
         return isDuplicate;
     }
@@ -123,5 +121,25 @@ public class User {
             }
         }              
         return user;
+    }
+
+    // check password theo mau
+    public boolean passwordPattern(String password) {
+
+        boolean isValid = Pattern.matches(passwordPattern, password);
+        System.out.println(isValid);
+        return isValid;
+    }
+
+
+    //check password duplicate and pattern
+    public boolean checkPasswordTochangePass(String password) {
+        boolean isDuplicate = false;
+        boolean isValid = passwordPattern(password);
+        if (user.checkPassword(password) == false && isValid == true) {
+
+            isDuplicate = true;
+        }
+        return isDuplicate;
     }
 }

@@ -1,3 +1,4 @@
+import View.LoginView;
 import View.View;
 
 public class Main{
@@ -6,6 +7,7 @@ public class Main{
         view.display();
 
         
-        
+        LoginView loginView = new LoginView();
+        loginView.display();
     }
 }
